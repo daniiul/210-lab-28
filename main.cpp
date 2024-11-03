@@ -24,6 +24,7 @@ void reverse_trip(list<Goat>& trip);
 void increment_age_trip (list<Goat>& trip);
 void remove_duplicate_names(list<Goat>& trip);
 void remove_oldest_goats(list<Goat>& trip);
+void fill_trip_placeholders(list<Goat>& trip);
 
 
 int main() {
@@ -57,7 +58,7 @@ int main() {
 
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 4) {
+    while (sel !=  12){
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -70,6 +71,30 @@ int main() {
             case 3:
                 cout << "Displaying goat data.\n";
                 display_trip(trip);
+                break;
+            case 4:
+                sort_trip(trip);
+                break;
+            case 5:
+                find_goat(trip);
+                break;
+            case 6:
+                average_age(trip);
+                break;
+            case 7:
+                reverse_trip(trip);
+                break;
+            case 8:
+                increment_age_trip(trip);
+                break;
+            case 9:
+                remove_duplicate_names(trip);
+                break;
+            case 10:
+                remove_oldest_goats(trip);
+                break;
+            case 11:
+                fill_trip_placeholders(trip);
                 break;
             default:
                 cout << "Invalid selection.\n";
@@ -87,7 +112,15 @@ int main_menu() {
     cout << "[1] Add a goat\n";
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
-    cout << "[4] Quit\n";
+    cout << "[4] Sort the Trip\n";
+    cout << "[5] Find a Goat\n";
+    cout << "[6] Average Age of trip\n";
+    cout << "[7] Reverse the Trip\n";
+    cout << "[8] Increment all ages by one\n";
+    cout << "[9] Remove duplicate names\n";
+    cout << "[10] Remove oldest goats\n";
+    cout << "[11] Clear the trip with placeholders\n";
+    cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
@@ -198,10 +231,20 @@ void increment_age_trip (list<Goat>& trip)
 void remove_duplicate_names(list<Goat>& trip)
 {
     trip.erase(unique(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) { return (a.get_name()).compare(b.get_name()); }), trip.end());
-
+    cout << "New trip: " << endl;
+    display_trip(trip);
 }
 
 void remove_oldest_goats(list<Goat>& trip)
 {
     trip.erase(remove_if(trip.begin(), trip.end(), [](const Goat& v){ return v.get_age() == 20; }), trip.end());
+    cout << "New trip: " << endl;
+    display_trip(trip);
+}
+
+void fill_trip_placeholders(list<Goat>& trip)
+{
+    fill(trip.begin(), trip.end(), Goat());
+    cout << "New trip: " << endl;
+    display_trip(trip);
 }
