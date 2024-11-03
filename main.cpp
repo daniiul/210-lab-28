@@ -1,3 +1,5 @@
+// COMSC-210 | 210-lab-28 | Daniil Malakhov
+// IDE used: Codeblocks
 #include <iostream>
 #include <algorithm>
 #include <numeric>
@@ -23,7 +25,7 @@ void average_age(list<Goat>& trip);
 void reverse_trip(list<Goat>& trip);
 void increment_age_trip (list<Goat>& trip);
 void remove_duplicate_names(list<Goat>& trip);
-void remove_oldest_goats(list<Goat>& trip);
+void clear_trip(list<Goat>& trip);
 void fill_trip_placeholders(list<Goat>& trip);
 
 
@@ -91,7 +93,7 @@ int main() {
                 remove_duplicate_names(trip);
                 break;
             case 10:
-                remove_oldest_goats(trip);
+                clear_trip(trip);
                 break;
             case 11:
                 fill_trip_placeholders(trip);
@@ -118,13 +120,13 @@ int main_menu() {
     cout << "[7] Reverse the Trip\n";
     cout << "[8] Increment all ages by one\n";
     cout << "[9] Remove duplicate names\n";
-    cout << "[10] Remove oldest goats\n";
+    cout << "[10] Clear trip\n";
     cout << "[11] Clear the trip with placeholders\n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 4) {
+    while (choice < 1 || choice > 12) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -173,15 +175,21 @@ int select_goat(list<Goat> trp) {
     return input;
 }
 
+// sorts the trip by name in alphabetical order
+// arguments: address to list trip
+// returns: none
 void sort_trip(list<Goat>& trip)
 {
     trip.sort([](Goat &a , Goat &b) {
-        return (a.get_name()) > (b.get_name());
+        return (a.get_name()) < (b.get_name());
     });
-    cout << "Shuffled trip: " << endl;
+    cout << "Sorted trip: " << endl;
     display_trip(trip);
 }
 
+// tells if a particular goat by name is found in the list
+// arguments: address to list trip
+// returns: none
 void find_goat(list<Goat>& trip)
 {
     string name;
@@ -196,6 +204,9 @@ void find_goat(list<Goat>& trip)
         cout << endl << name << " not found." << endl;
 }
 
+// calculates the average age of all goats in trip
+// arguments: address to list trip
+// returns: none
 void average_age(list<Goat>& trip)
 {
      int totalAge = accumulate(trip.begin(), trip.end(), 0, [](int sum, const Goat& v){ return sum + v.get_age(); });
@@ -204,13 +215,9 @@ void average_age(list<Goat>& trip)
      cout << "The average age of the goats in the trip are: " << totalAge / totalAmount << endl;
 }
 
-void clear_length(list<Goat>& trip)
-{
-    cout << "Clearing trip ... " << endl;
-    trip.clear();
-    cout << "Size now: " << trip.size();
-}
-
+// reverses the list
+// arguments: address to list trip
+// returns: none
 void reverse_trip(list<Goat>& trip)
 {
     reverse(trip.begin(), trip.end());
@@ -218,6 +225,9 @@ void reverse_trip(list<Goat>& trip)
     display_trip(trip);
 }
 
+// increments age of all goats by one
+// arguments: address to list trip
+// returns: none
 void increment_age_trip (list<Goat>& trip)
 {
     transform(trip.begin(), trip.end(), trip.begin(), [](Goat& v) {
@@ -228,20 +238,29 @@ void increment_age_trip (list<Goat>& trip)
     display_trip(trip);
 }
 
+// removes duplicate names from trip
+// arguments: address to list trip
+// returns: none
 void remove_duplicate_names(list<Goat>& trip)
 {
-    trip.erase(unique(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) { return (a.get_name()).compare(b.get_name()); }), trip.end());
+    trip.erase(unique(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) { return !(a.get_name()).compare(b.get_name()); }), trip.end());
     cout << "New trip: " << endl;
     display_trip(trip);
 }
 
-void remove_oldest_goats(list<Goat>& trip)
+// clears the list
+// arguments: address to list trip
+// returns: none
+void clear_trip(list<Goat>& trip)
 {
-    trip.erase(remove_if(trip.begin(), trip.end(), [](const Goat& v){ return v.get_age() == 20; }), trip.end());
-    cout << "New trip: " << endl;
-    display_trip(trip);
+    cout << "Clearing trip ... " << endl;
+    trip.clear();
+    cout << "Size now: " << trip.size() << endl;
 }
 
+// fills the list with placeholders
+// arguments: address to list trip
+// returns: none
 void fill_trip_placeholders(list<Goat>& trip)
 {
     fill(trip.begin(), trip.end(), Goat());
