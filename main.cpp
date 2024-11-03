@@ -19,7 +19,8 @@ int main_menu();
 void sort_trip(list<Goat>& trip);
 void find_goat(list<Goat>& trip);
 void average_age(list<Goat>& trip);
-void list_length(list<Goat>& trip);
+void reverse_trip(list<Goat>& trip);
+void shuffle_trip(list<Goat>& trip)
 
 int main() {
     srand(time(0));
@@ -140,6 +141,8 @@ void sort_trip(list<Goat>& trip)
     trip.sort([](Goat &a , Goat &b) {
         return (a.get_name()) > (b.get_name());
     });
+    cout << "Shuffled trip: " << endl;
+    display_trip(trip);
 }
 
 void find_goat(list<Goat>& trip)
@@ -159,10 +162,35 @@ void find_goat(list<Goat>& trip)
 void average_age(list<Goat>& trip)
 {
      int totalAge = accumulate(trip.begin(), trip.end(), 0, [](int sum, const Goat& v){ return sum + v.get_age(); });
-     int totalAmount = accumulate(trip.begin(), trip.end(), 0);
+     int totalAmount = trip.size();
+
+     cout << "The average age of the goats in the trip are: " << totalAge / totalAmount << endl;
 }
 
-void list_length(list<Goat>& trip)
+void clear_length(list<Goat>& trip)
 {
+    cout << "Clearing trip ... " << endl;
+    trip.clear();
+    cout << "Size now: " << trip.size();
+}
+
+void reverse_trip(list<Goat>& trip)
+{
+    reverse(trip.begin(), trip.end());
+    cout << "Reversed trip: " << endl;
+    display_trip(trip);
+}
+
+void shuffle_trip(list<Goat>& trip)
+{
+    shuffle(trip.begin(), trip.end(),
+    default_random_engine());
+    cout << "Shuffled trip: " << endl;
+    display_trip(trip);
+}
+
+void remove_duplicate_names(list<Goat>& trip)
+{
+    trip.erase(unique(trip.begin(), trip.end(),  [](const Goat& a, const Goat& b) { return a.get_name().compare(b.get_name); }), trip.end()););
 
 }
