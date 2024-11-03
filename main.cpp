@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <list>
 #include <algorithm>
+#include <random>
 #include "Goat.h"
 using namespace std;
 
@@ -20,7 +21,7 @@ void sort_trip(list<Goat>& trip);
 void find_goat(list<Goat>& trip);
 void average_age(list<Goat>& trip);
 void reverse_trip(list<Goat>& trip);
-void shuffle_trip(list<Goat>& trip)
+void shuffle_trip(list<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -191,6 +192,6 @@ void shuffle_trip(list<Goat>& trip)
 
 void remove_duplicate_names(list<Goat>& trip)
 {
-    trip.erase(unique(trip.begin(), trip.end(),  [](const Goat& a, const Goat& b) { return a.get_name().compare(b.get_name); }), trip.end()););
+    trip.erase(unique(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) { return (a.get_name()).compare(b.get_name()); }), trip.end());
 
 }
