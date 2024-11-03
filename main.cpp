@@ -21,7 +21,10 @@ void sort_trip(list<Goat>& trip);
 void find_goat(list<Goat>& trip);
 void average_age(list<Goat>& trip);
 void reverse_trip(list<Goat>& trip);
-void shuffle_trip(list<Goat>& trip);
+void increment_age_trip (list<Goat>& trip);
+void remove_duplicate_names(list<Goat>& trip);
+void remove_oldest_goats(list<Goat>& trip);
+
 
 int main() {
     srand(time(0));
@@ -196,4 +199,9 @@ void remove_duplicate_names(list<Goat>& trip)
 {
     trip.erase(unique(trip.begin(), trip.end(), [](const Goat& a, const Goat& b) { return (a.get_name()).compare(b.get_name()); }), trip.end());
 
+}
+
+void remove_oldest_goats(list<Goat>& trip)
+{
+    trip.erase(remove_if(trip.begin(), trip.end(), [](const Goat& v){ return v.get_age() == 20; }), trip.end());
 }
