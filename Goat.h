@@ -12,7 +12,7 @@ private:
     string name;
     int age;
     string color;
-public: 
+public:
     Goat()                          { name = ""; age = 0; color = ""; }
     Goat(string n)                  { name = n; age = rand() % MAX_AGE; color = ""; }
     Goat(string n, int a)           { name = n; age = a; color = ""; }

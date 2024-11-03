@@ -1,7 +1,11 @@
 #include <iostream>
+#include <algorithm>
+#include <numeric>
+#include <string>
 #include <fstream>
 #include <iomanip>
 #include <list>
+#include <algorithm>
 #include "Goat.h"
 using namespace std;
 
@@ -12,6 +16,10 @@ void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 int main_menu();
+void sort_trip(list<Goat>& trip);
+void find_goat(list<Goat>& trip);
+void average_age(list<Goat>& trip);
+void list_length(list<Goat>& trip);
 
 int main() {
     srand(time(0));
@@ -41,7 +49,7 @@ int main() {
         Goat tmp(name, age, color);
         trip.push_back(tmp);
     }
-    
+
     // Goat Manager 3001 Engine
     int sel = main_menu();
     while (sel != 4) {
@@ -50,11 +58,11 @@ int main() {
                 cout << "Adding a goat.\n";
                 add_goat(trip, names, colors);
                 break;
-            case 2:    
+            case 2:
                 cout << "Removing a goat.\n";
                 delete_goat(trip);
                 break;
-            case 3:    
+            case 3:
                 cout << "Displaying goat data.\n";
                 display_trip(trip);
                 break;
@@ -64,7 +72,7 @@ int main() {
         }
         sel = main_menu();
     }
-    
+
 
     return 0;
 }
@@ -107,10 +115,10 @@ void add_goat(list<Goat> &trip, string nms[], string cls[]) {
 void display_trip(list<Goat> trp) {
     int i = 1;
     for (auto gt: trp)
-        cout << "\t" 
+        cout << "\t"
              << "[" << i++ << "] "
-             << gt.get_name() 
-             << " (" << gt.get_age() 
+             << gt.get_name()
+             << " (" << gt.get_age()
              << ", " << gt.get_color() << ")\n";
 }
 
@@ -125,4 +133,36 @@ int select_goat(list<Goat> trp) {
         cin >> input;
     }
     return input;
+}
+
+void sort_trip(list<Goat>& trip)
+{
+    trip.sort([](Goat &a , Goat &b) {
+        return (a.get_name()) > (b.get_name());
+    });
+}
+
+void find_goat(list<Goat>& trip)
+{
+    string name;
+    cout << "Name of goat you would like to find: ";
+    cin >> name;
+
+    auto it = find_if(trip.begin(), trip.end(), [name](const Goat& v){ return v.get_name() == name; });
+    if (it != trip.end()) {
+        cout << name << " was found." << endl;
+    }
+    else
+        cout << endl << name << " not found." << endl;
+}
+
+void average_age(list<Goat>& trip)
+{
+     int totalAge = accumulate(trip.begin(), trip.end(), 0, [](int sum, const Goat& v){ return sum + v.get_age(); });
+     int totalAmount = accumulate(trip.begin(), trip.end(), 0);
+}
+
+void list_length(list<Goat>& trip)
+{
+
 }
