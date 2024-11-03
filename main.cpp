@@ -182,11 +182,13 @@ void reverse_trip(list<Goat>& trip)
     display_trip(trip);
 }
 
-void shuffle_trip(list<Goat>& trip)
+void increment_age_trip (list<Goat>& trip)
 {
-    shuffle(trip.begin(), trip.end(),
-    default_random_engine());
-    cout << "Shuffled trip: " << endl;
+    transform(trip.begin(), trip.end(), trip.begin(), [](Goat& v) {
+              int i = v.get_age() + 1;
+              v.set_age(i);
+              return v; });
+    cout << "New trip: " << endl;
     display_trip(trip);
 }
 
